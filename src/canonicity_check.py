@@ -85,20 +85,43 @@ def es_canonico(coins: List[int]) -> Tuple[bool, Optional[int]]:
 def _demo() -> None:
     """Demostración del verificador con sistemas canónicos y no canónicos."""
     casos = [
-        ("USD canónico",       [1, 5, 10, 25]),
-        ("EUR canónico",       [1, 2, 5, 10, 20, 50, 100, 200]),
-        ("No canónico clásico",[1, 3, 4]),
-        ("No canónico mixto",  [1, 5, 10, 12, 25]),
-        ("No canónico fuerte", [1, 7, 24, 42]),
+        ("USD canónico",        [1, 5, 10, 25]),
+        ("EUR canónico",        [1, 2, 5, 10, 20, 50, 100, 200]),
+        ("No canónico clásico", [1, 3, 4]),
+        ("No canónico mixto",   [1, 5, 10, 12, 25]),
+        ("No canónico fuerte",  [1, 7, 24, 42]),
     ]
-    print(f"{'Sistema':<25} {'Canónico':>9}  Contraejemplo")
-    print("-" * 50)
+
+    print()
+    print("  ¿Qué significa que un sistema sea canónico?")
+    print("  Un sistema es CANÓNICO si greedy siempre produce la solución")
+    print("  óptima, sin importar el valor de W. Si existe aunque sea un")
+    print("  solo W donde greedy falla, el sistema NO es canónico.")
+    print()
+
     for nombre, coins in casos:
         canonico, contra = es_canonico(coins)
+
+        print(f"{'═' * 56}")
+        print(f"  {nombre}")
+        print(f"  Denominaciones: {coins}")
+
         if canonico:
-            print(f"  {nombre:<23} {'Sí':>9}")
+            print(f"  Canónico:       Sí")
+            print(f"  Razón:          greedy es óptimo para todo W posible")
         else:
-            print(f"  {nombre:<23} {'No':>9}  W={contra}")
+            opt, _ = coin_change_dp(coins, contra)
+            gr, _  = coin_change_greedy(coins, contra)
+            ratio  = f"{gr}/{opt} = {gr/opt:.1f}×" if opt and gr else "N/A"
+            print(f"  Canónico:       No")
+            print(f"  Contraejemplo:  W={contra}")
+            print(f"    DP    → {opt} monedas  (óptimo)")
+            print(f"    Greedy→ {gr} monedas  (subóptimo, ratio {ratio})")
+            print(f"  Razón:  greedy elige la moneda más grande disponible")
+            print(f"          y no puede retroceder, quedando atrapado en")
+            print(f"          una combinación peor que la óptima.")
+
+    print(f"{'═' * 56}")
 
 
 if __name__ == "__main__":

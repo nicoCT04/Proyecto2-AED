@@ -1,0 +1,20 @@
+metrica,valor
+n_instancias,15
+ratio_medio,28.4024
+ratio_mediana,6.6000
+ratio_desv_std,34.3191
+ratio_minimo,1.0000
+ratio_maximo,118.2857
+ratio_p25,1.5416
+ratio_p75,45.7500
+ratio_p90,64.8800
+
+categoria,instancias
+óptimo (=1.0),1
+"aceptable (1.0,1.5]",3
+"malo (1.5,10]",4
+catastrófico (>10),7
+
+caso,n,W,dp,greedy,ratio
+peor,20,40000,7,828,118.2857
+mejor,12,5000,5,5,1.0000

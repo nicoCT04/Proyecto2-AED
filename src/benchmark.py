@@ -27,7 +27,33 @@ import time
 import random
 import csv
 import os
+import sys
 from typing import List, Tuple
+
+
+class _Tee:
+    """Escribe simultáneamente en stdout y en un archivo."""
+
+    def __init__(self, path: str) -> None:
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        self._file = open(path, "w", encoding="utf-8")
+        self._stdout = sys.stdout
+
+    def write(self, data: str) -> None:
+        self._stdout.write(data)
+        self._file.write(data)
+
+    def flush(self) -> None:
+        self._stdout.flush()
+        self._file.flush()
+
+    def __enter__(self) -> "_Tee":
+        sys.stdout = self
+        return self
+
+    def __exit__(self, *_) -> None:
+        sys.stdout = self._stdout
+        self._file.close()
 
 import numpy as np
 import matplotlib
@@ -352,6 +378,12 @@ def analisis_ratio_aproximacion():
 
 
 if __name__ == "__main__":
-    correr_experimento()
-    evaluar_calidad()
-    analisis_ratio_aproximacion()
+    base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    out_path = os.path.join(base, "results", "benchmark_output.txt")
+
+    with _Tee(out_path):
+        correr_experimento()
+        evaluar_calidad()
+        analisis_ratio_aproximacion()
+
+    print(f"Salida guardada en: {out_path}")
