@@ -51,6 +51,14 @@ def coin_change_greedy(coins: List[int], W: int) -> Tuple[Optional[int], List[in
           heurística no pudo representar W (incluso si DP sí podría).
         - monedas_usadas: lista de monedas elegidas (puede no ser óptima).
     """
+    if not isinstance(W, int):
+        raise TypeError("W debe ser entero.")
+    if not isinstance(coins, list):
+        raise TypeError("coins debe ser list.")
+    if len(coins) == 0:
+        raise ValueError("coins no puede estar vacío.")
+    if any(not isinstance(c, int) for c in coins):
+        raise TypeError("Todas las denominaciones deben ser enteros.")
     if W < 0:
         raise ValueError("W debe ser un entero no negativo.")
     if any(c <= 0 for c in coins):

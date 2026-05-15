@@ -1,3 +1,38 @@
+"""
+coin_change_dp.py
+-------------------------------------------------------------------------------
+Universidad del Valle de Guatemala
+Análisis y Diseño de Algoritmos - Sección 20 - Semestre 1, 2026
+Proyecto 2 - Coin Change Problem (Programación Dinámica)
+
+Integrantes:
+    - Nicolás Concuá  (Carné No. 23197)
+    - Esteban Cárcamo (Carné No. 23016)
+    - Diego López     (Carné No. 23747)
+
+Descripción:
+    Implementación bottom-up del Coin Change Problem usando programación
+    dinámica. Dado un conjunto de denominaciones C = {c1, ..., cn} y un
+    monto objetivo W, encuentra la cantidad mínima de monedas que suman
+    exactamente W.
+
+    Recurrencia:
+        dp[0] = 0
+        dp[w] = min{ dp[w - c] + 1  para todo c en C tal que c <= w }
+        dp[w] = INF   si ninguna denominación permite avanzar.
+
+    Reconstrucción: el arreglo parent[w] guarda la denominación elegida
+    que produjo el mínimo en dp[w], permitiendo reconstruir la solución
+    en O(W) recorriendo desde W hasta 0.
+
+    Complejidad temporal: O(n * W) — pseudo-polinomial.
+    Complejidad espacial: O(W) para dp[] y parent[].
+
+Casos borde:
+    - W = 0  -> (0, [])
+    - W no representable  -> (None, [])
+"""
+
 from __future__ import annotations
 from typing import List, Optional, Tuple
 import math
@@ -19,6 +54,14 @@ def coin_change_dp(coins: List[int], W: int) -> Tuple[Optional[int], List[int]]:
         - cantidad_minima: número mínimo de monedas, o None si no es alcanzable.
         - monedas_usadas: lista con las monedas que conforman la solución.
     """
+    if not isinstance(W, int):
+        raise TypeError("W debe ser entero.")
+    if not isinstance(coins, list):
+        raise TypeError("coins debe ser list.")
+    if len(coins) == 0:
+        raise ValueError("coins no puede estar vacío.")
+    if any(not isinstance(c, int) for c in coins):
+        raise TypeError("Todas las denominaciones deben ser enteros.")
     if W < 0:
         raise ValueError("W debe ser un entero no negativo.")
     if any(c <= 0 for c in coins):
