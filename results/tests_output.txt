@@ -1,0 +1,55 @@
+test_contraejemplo_verifica_diferencia (test_canonicity.TestCanonicityCheck.test_contraejemplo_verifica_diferencia)
+Para cada contraejemplo reportado, verificar que DP y greedy efectivamente difieren. ... ok
+test_dos_denominaciones_siempre_canonico (test_canonicity.TestCanonicityCheck.test_dos_denominaciones_siempre_canonico)
+Sistemas con solo 2 denominaciones (incluida la 1) son canónicos. ... ok
+test_eur_canonico (test_canonicity.TestCanonicityCheck.test_eur_canonico)
+Sistema EUR [1,2,5,10,20,50,100,200] es canónico. ... ok
+test_no_canonico_clasico (test_canonicity.TestCanonicityCheck.test_no_canonico_clasico)
+Sistema [1,3,4] NO es canónico. ... ok
+test_no_canonico_fuerte (test_canonicity.TestCanonicityCheck.test_no_canonico_fuerte)
+Sistema [1,7,24,42] NO es canónico. ... ok
+test_no_canonico_mixto (test_canonicity.TestCanonicityCheck.test_no_canonico_mixto)
+Sistema [1,5,10,12,25] NO es canónico. ... ok
+test_usd_canonico (test_canonicity.TestCanonicityCheck.test_usd_canonico)
+Sistema USD [1,5,10,25] es canónico. ... ok
+test_canonico_usd_w30 (test_coin_change_dp.TestCoinChangeDP.test_canonico_usd_w30)
+Sistema canónico USD: W=30 debe dar 2 monedas (25+5). ... ok
+test_canonico_usd_w87 (test_coin_change_dp.TestCoinChangeDP.test_canonico_usd_w87)
+Sistema canónico USD: W=87 debe dar 5 monedas (25+25+25+10+2? no, 25*3+10+1+1=87). Verificar suma. ... ok
+test_contraejemplo_greedy_clasico (test_coin_change_dp.TestCoinChangeDP.test_contraejemplo_greedy_clasico)
+[1,3,4], W=6: DP debe dar 2 monedas (3+3). ... ok
+test_estabilidad_orden (test_coin_change_dp.TestCoinChangeDP.test_estabilidad_orden)
+Denominaciones desordenadas deben dar el mismo resultado que ordenadas. ... ok
+test_no_representable (test_coin_change_dp.TestCoinChangeDP.test_no_representable)
+[2,4,6], W=7: no representable, debe devolver (None, []). ... ok
+test_suma_monedas_igual_w (test_coin_change_dp.TestCoinChangeDP.test_suma_monedas_igual_w)
+Para todo caso representable, la suma de monedas reconstruidas debe ser W. ... ok
+test_w_cero (test_coin_change_dp.TestCoinChangeDP.test_w_cero)
+W=0 siempre debe devolver (0, []). ... ok
+test_canonico_usd_w30 (test_coin_change_greedy.TestCoinChangeGreedy.test_canonico_usd_w30)
+Sistema canónico USD: W=30, greedy debe dar 2 monedas (óptimo). ... ok
+test_greedy_falla_no_representable (test_coin_change_greedy.TestCoinChangeGreedy.test_greedy_falla_no_representable)
+[2,4,6], W=7: greedy no puede completar, debe devolver None en cantidad. ... ok
+test_suboptimo_clasico (test_coin_change_greedy.TestCoinChangeGreedy.test_suboptimo_clasico)
+[1,3,4], W=6: greedy da 3 (4+1+1), DP da 2. Verificar greedy > dp. ... ok
+test_suboptimo_fuerte (test_coin_change_greedy.TestCoinChangeGreedy.test_suboptimo_fuerte)
+[1,7,24,42], W=48: greedy da 7, DP da 2. Ratio = 3.5. ... ok
+test_w_cero (test_coin_change_greedy.TestCoinChangeGreedy.test_w_cero)
+W=0 debe devolver (0, []). ... ok
+test_coins_con_cero (test_validaciones.TestValidacionesDP.test_coins_con_cero) ... ok
+test_coins_con_float (test_validaciones.TestValidacionesDP.test_coins_con_float) ... ok
+test_coins_no_es_lista (test_validaciones.TestValidacionesDP.test_coins_no_es_lista) ... ok
+test_coins_vacio (test_validaciones.TestValidacionesDP.test_coins_vacio) ... ok
+test_w_negativo (test_validaciones.TestValidacionesDP.test_w_negativo) ... ok
+test_w_string (test_validaciones.TestValidacionesDP.test_w_string) ... ok
+test_coins_con_cero (test_validaciones.TestValidacionesGreedy.test_coins_con_cero) ... ok
+test_coins_con_float (test_validaciones.TestValidacionesGreedy.test_coins_con_float) ... ok
+test_coins_no_es_lista (test_validaciones.TestValidacionesGreedy.test_coins_no_es_lista) ... ok
+test_coins_vacio (test_validaciones.TestValidacionesGreedy.test_coins_vacio) ... ok
+test_w_negativo (test_validaciones.TestValidacionesGreedy.test_w_negativo) ... ok
+test_w_string (test_validaciones.TestValidacionesGreedy.test_w_string) ... ok
+
+----------------------------------------------------------------------
+Ran 31 tests in 0.014s
+
+OK
