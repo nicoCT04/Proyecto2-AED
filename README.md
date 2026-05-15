@@ -56,6 +56,37 @@ python src/coin_change_greedy.py
 python src/benchmark.py
 ```
 
+## Diferenciador respecto al examen parcial
+
+Este proyecto NO resuelve el problema de coin change "estándar" con un sistema
+de monedas canónico fijo (como el visto en el examen parcial). El enfoque de
+este proyecto es deliberadamente **el caso general**:
+
+1. **Denominaciones arbitrarias**: los sistemas analizados son no canónicos en
+   su mayoría, generados pseudo-aleatoriamente con denominaciones en rangos
+   amplios. El proyecto contrasta sistemáticamente el comportamiento de DP y
+   greedy en estos sistemas.
+
+2. **Análisis de la greedy-choice property**: se demuestra formalmente y se
+   exhibe empíricamente que la propiedad NO se cumple en general, con
+   contraejemplos cuantificados (ratio greedy/óptimo hasta 3.5× en el caso
+   `C={1,7,24,42}, W=48`).
+
+3. **Verificador de canonicidad** (`src/canonicity_check.py`): implementación
+   del test de Pearson (2005) que decide en tiempo polinomial si un sistema
+   de monedas dado es canónico, dato que el examen no contempla.
+
+4. **Análisis adversarial** (`src/adversarial_cases.py`): generación
+   sistemática de sistemas donde greedy falla, con métrica del ratio de
+   aproximación greedy/óptimo.
+
+5. **Naturaleza pseudo-polinomial del DP**: el informe discute por qué O(n·W)
+   es exponencial en el tamaño de la entrada en bits (W codificado en log₂ W
+   bits), distinguiendo polinomialidad numérica de polinomialidad real.
+
+En síntesis: el examen pregunta "resolver coin change"; este proyecto pregunta
+"**¿cuándo greedy es óptimo y cuándo falla, y qué tan mal puede fallar?**".
+
 ## Resultados principales
 
 - DP escala linealmente con `n·W` (R² ≈ 0.9997 para regresión lineal forzada),
