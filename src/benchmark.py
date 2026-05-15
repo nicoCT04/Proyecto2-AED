@@ -263,6 +263,95 @@ def evaluar_calidad():
         print(f"  [{etiqueta:>22}] coins={coins}, W={W:>4} -> DP={opt}, Greedy={gr}  {calidad}")
 
 
+def analisis_ratio_aproximacion():
+    """
+    Sobre las mismas instancias del experimento principal, calcula el ratio
+    greedy/óptimo cuando ambos completan W. Reporta:
+      - Cuántas instancias greedy fue óptimo, subóptimo, y falló.
+      - Ratio promedio y máximo.
+    Guarda resultados en results/calidad_greedy.csv.
+    """
+    casos: List[Tuple[int, int]] = [
+        (5,    100),
+        (5,    500),
+        (5,   1000),
+        (8,   1000),
+        (8,   2500),
+        (10,  2500),
+        (10,  5000),
+        (12,  5000),
+        (12, 10000),
+        (15, 10000),
+        (15, 20000),
+        (20, 20000),
+        (20, 40000),
+        (25, 40000),
+        (25, 80000),
+    ]
+
+    optimos = 0
+    suboptimos = 0
+    fallos = 0
+    ratios: List[float] = []
+
+    filas_csv: List[dict] = []
+
+    print()
+    print("=" * 70)
+    print("Análisis del ratio de aproximación greedy/óptimo")
+    print("=" * 70)
+    print(f"{'n':>4} {'W':>8} {'DP':>6} {'Greedy':>8} {'Ratio':>8}  Estado")
+    print("-" * 55)
+
+    for i, (n, W) in enumerate(casos):
+        coins = generar_caso(n, W, seed=42 + i)
+        opt, _ = coin_change_dp(coins, W)
+        gr, _ = coin_change_greedy(coins, W)
+
+        if opt is None or gr is None:
+            ratio = None
+            estado = "fallo"
+            fallos += 1
+            ratio_str = "N/A"
+        elif opt == gr:
+            ratio = 1.0
+            estado = "óptimo"
+            optimos += 1
+            ratios.append(ratio)
+            ratio_str = f"{ratio:.4f}"
+        else:
+            ratio = gr / opt
+            estado = "subóptimo"
+            suboptimos += 1
+            ratios.append(ratio)
+            ratio_str = f"{ratio:.4f}"
+
+        print(f"{n:>4} {W:>8} {str(opt):>6} {str(gr):>8} {ratio_str:>8}  {estado}")
+        filas_csv.append({
+            "n": n, "W": W, "dp": opt, "greedy": gr,
+            "ratio_greedy_opt": ratio_str, "estado": estado,
+        })
+
+    print("-" * 55)
+    print(f"  Óptimos:   {optimos}")
+    print(f"  Subóptimos:{suboptimos}")
+    print(f"  Fallos:    {fallos}")
+    if ratios:
+        print(f"  Ratio promedio: {sum(ratios)/len(ratios):.4f}")
+        print(f"  Ratio máximo:   {max(ratios):.4f}")
+
+    base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    out_dir = os.path.join(base, "results")
+    os.makedirs(out_dir, exist_ok=True)
+    csv_path = os.path.join(out_dir, "calidad_greedy.csv")
+    with open(csv_path, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=["n", "W", "dp", "greedy", "ratio_greedy_opt", "estado"])
+        writer.writeheader()
+        writer.writerows(filas_csv)
+    print(f"\nResultados guardados en: {csv_path}")
+
+
 if __name__ == "__main__":
     correr_experimento()
     evaluar_calidad()
+    analisis_ratio_aproximacion()
